@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: url-shortener-proxy
+
+server:
+  port: ${service.port}
+
+url-shortener:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8081, localhost:8082, localhost:8083
+    ServerListRefreshInterval: 1000
