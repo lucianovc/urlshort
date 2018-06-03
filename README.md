@@ -1,6 +1,6 @@
 # URL Shortener
 
-##Application Components:
+## Application Components:
     
 1. Web Load Balancer (Ribon)
 2. REST Service (Spring)
@@ -21,11 +21,11 @@ Having the load balance routing the requests to the web servers
 provides scalability to a certain stage.
 
 
-##External Dependencies:
+## External Dependencies:
 1. [https://kafka.apache.org/downloads|Kafka]
 2. [http://download.redis.io/releases/redis-4.0.9.tar.gz|Redis]
 
-##Load Balancer Configuration
+## Load Balancer Configuration
 
 1. file: urlshortenerproxy/src/main/resources/application.yml
 
@@ -34,7 +34,7 @@ At this file are defined the load balancer port and the nodes hostname + port.
 ## Kafka cluster configuration
 
  
-####file : `config/server.properties`\
+#### file : `config/server.properties`\
 properties: 
 * `broker.id=0`
 * `listeners=PLAINTEXT://:9092`
@@ -43,7 +43,7 @@ properties:
 
 ** The other properties remain the same as original.
 
-####file : `config/server-1.properties`\
+#### file : `config/server-1.properties`\
 properties: 
 * `broker.id=1`
 * `listeners=PLAINTEXT://:9093`
@@ -52,7 +52,7 @@ properties:
 
 ** The other properties remain the same as original.
 
-####file : `config/server-2.properties`\
+#### file : `config/server-2.properties`\
 properties: 
 * `broker.id=2`
 * `listeners=PLAINTEXT://:9094`
@@ -61,7 +61,7 @@ properties:
 
 ** The other properties remain the same as original.
 
-##Running KAFKA and REDIS
+## Running KAFKA and REDIS
 1. `cd ${KAFKA_HOME}`
 2. `bin/zookeeper-server-start.sh config/zookeeper.properties`
 3. `bin/kafka-server-start.sh config/server.properties`
@@ -74,34 +74,34 @@ properties:
 If we're running Kafka on different machines, then we need the same about Redis. If not, 
 then a single instance should be fine.
 
-##Modules:
+## Modules:
 1. urlshortenerproxy: load balancer, forwards requests to the rest servers
 2. urlshortenerweb: rest services
 
 
-##Spring Configuration files:
+## Spring Configuration files:
 1. urlshortenerproxy/src/main/resources/application.yml + application.properties
 2. urlshortenerweb/src/main/resources/application.properties
 
 
-##Building
+## Building
 
 * `mvn package`\
 The executable jar files will be located at the `target` folder inside 
 each module.
 
 
-##Running the rest servers
+## Running the rest servers
     
 * `java -jar urlshortenerweb-0.1.0.jar --service.port=8081`
 * `java -jar urlshortenerweb-0.1.0.jar --service.port=8082`
 * `java -jar urlshortenerweb-0.1.0.jar --service.port=8083`
 
-##Running the Web Load Balancer
+## Running the Web Load Balancer
     
 `java -jar ./url-shortener-proxy-0.1.0.jar --service.port=8080`
 
-##Test:
+## Test:
     
 * `curl -G http://localhost:8080/create?url=XXX`
 * `curl -G http://localhost:8080/lookup?url=XXX`
